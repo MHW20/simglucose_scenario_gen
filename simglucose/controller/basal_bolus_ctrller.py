@@ -2,14 +2,9 @@ from .base import Controller
 from .base import Action
 import numpy as np
 import pandas as pd
-import pkg_resources
 import logging
 
 logger = logging.getLogger(__name__)
-CONTROL_QUEST = pkg_resources.resource_filename('simglucose',
-                                                'params/Quest.csv')
-PATIENT_PARA_FILE = pkg_resources.resource_filename(
-    'simglucose', 'params/vpatient_params.csv')
 
 
 class BBController(Controller):
@@ -18,9 +13,9 @@ class BBController(Controller):
     Diabetes patient. The performance of this controller can serve as a
     baseline when developing a more advanced controller.
     """
-    def __init__(self, target=140):
-        self.quest = pd.read_csv(CONTROL_QUEST)
-        self.patient_params = pd.read_csv(PATIENT_PARA_FILE)
+    def __init__(self, quest_file, patient_params_file, target=140):
+        self.quest = pd.read_csv(quest_file)
+        self.patient_params = pd.read_csv(patient_params_file)
         self.target = target
 
     def policy(self, observation, reward, done, **kwargs):
